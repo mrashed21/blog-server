@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Post {
+  id         String     @id @default(uuid())
+  title      String     @db.VarChar(255)
+  content    String
+  thumbnail  String
+  isFeatured Boolean    @default(false)
+  status     PostStatus @default(published)
+  tags       String[]
+  views      Int[]
+  authoeId   String
+  comments   Comment[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@index([authoeId])
+}
+
+model Comment {
+  id        String        @id @default(uuid())
+  content   String        @db.Text
+  authorId  String
+  postId    String
+  post      Post          @relation(fields: [postId], references: [id])
+  parentId  String?
+  parent    Comment?      @relation("CommentReplays", fields: [parentId], references: [id])
+  replays   Comment[]     @relation("CommentReplays")
+  status    CommnetStatus @default(approved)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([authorId])
+  @@index([postId])
+  @@map("comments")
+}
+
+enum PostStatus {
+  darft
+  published
+  archive
+}
+
+enum CommnetStatus {
+  approved
+  reject
+}
