@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/v1", router);
-app.all("/api/auth/*", toNodeHandler(auth));
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 app.get("/", (req, res) => {
   res.send("blog server is running");

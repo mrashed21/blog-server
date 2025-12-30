@@ -60,7 +60,7 @@ enum CommnetStatus {
 }
 
 model User {
-  id            String    @id
+  id            String    @id @default(uuid())
   name          String
   email         String
   emailVerified Boolean   @default(false)
@@ -69,6 +69,10 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+
+  role   String? @default("user")
+  phone  String?
+  status String? @default("active")
 
   @@unique([email])
   @@map("user")
