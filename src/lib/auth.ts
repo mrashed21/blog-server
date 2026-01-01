@@ -53,102 +53,103 @@ export const auth = betterAuth({
           to: "islamrohi99@gmail.com",
           subject: "Blog App: verify your email address",
           // text: "Hello world?",
-          html: `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Verify Your Email</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #f5f7fb;
-      font-family: Arial, Helvetica, sans-serif;
-      color: #333333;
-    }
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      background-color: #ffffff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
-    .header {
-      background-color: #1c74c0;
-      padding: 20px;
-      text-align: center;
-      color: #ffffff;
-    }
-    .content {
-      padding: 30px;
-      line-height: 1.6;
-    }
-    .button {
-      display: inline-block;
-      margin: 24px 0;
-      padding: 14px 24px;
-      background-color: #1c74c0;
-      color: #ffffff !important;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-    .footer {
-      padding: 20px;
-      font-size: 13px;
-      color: #777777;
-      background-color: #f5f7fb;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h2>Verify Your Email</h2>
+          html: `
+    <!DOCTYPE html>
+     <html lang="en">
+      <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Verify Your Email</title>
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          background-color: #f5f7fb;
+          font-family: Arial, Helvetica, sans-serif;
+          color: #333333;
+        }
+        .container {
+          max-width: 600px;
+          margin: 40px auto;
+          background-color: #ffffff;
+          border-radius: 8px;
+          overflow: hidden;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+      .header {
+          background-color: #1c74c0;
+          padding: 20px;
+          text-align: center;
+          color: #ffffff;
+        }
+      .content {
+          padding: 30px;
+          line-height: 1.6;
+        }
+      .button {
+        display: inline-block;
+        margin: 24px 0;
+        padding: 14px 24px;
+        background-color: #1c74c0;
+        color: #ffffff !important;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+      }
+      .footer {
+        padding: 20px;
+        font-size: 13px;
+        color: #777777;
+        background-color: #f5f7fb;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2>Verify Your Email</h2>
+      </div>
+
+      <div class="content">
+        <p>Hi <strong>${user.name}</strong>,</p>
+
+        <p>
+          Thank you for signing up for <strong>Blog App</strong>.
+          To complete your registration, please verify your email address by clicking the button below.
+        </p>
+
+        <p style="text-align: center;">
+          <a href="${verifyURL}" class="button">Verify Email Address</a>
+        </p>
+
+        <p>
+         If the button doesn’t work, copy and paste this link into your browser:
+        </p>
+
+        <p style="word-break: break-all;">
+          <a href="${verifyURL}">${verifyURL}</a>
+        </p>
+
+        <p>
+          This verification link will expire for security reasons.
+          If you did not create an account, you can safely ignore this email.
+        </p>
+
+        <p>
+          Regards,<br />
+          <strong>Blog App Team</strong>
+        </p>
+      </div>
+
+      <div class="footer">
+        <p>
+          © ${new Date().getFullYear()} Blog App. All rights reserved.
+        </p>
+      </div>
     </div>
-
-    <div class="content">
-      <p>Hi <strong>${user.name}</strong>,</p>
-
-      <p>
-        Thank you for signing up for <strong>Blog App</strong>.
-        To complete your registration, please verify your email address by clicking the button below.
-      </p>
-
-      <p style="text-align: center;">
-        <a href="${verifyURL}" class="button">Verify Email Address</a>
-      </p>
-
-      <p>
-        If the button doesn’t work, copy and paste this link into your browser:
-      </p>
-
-      <p style="word-break: break-all;">
-        <a href="${verifyURL}">${verifyURL}</a>
-      </p>
-
-      <p>
-        This verification link will expire for security reasons.
-        If you did not create an account, you can safely ignore this email.
-      </p>
-
-      <p>
-        Regards,<br />
-        <strong>Blog App Team</strong>
-      </p>
-    </div>
-
-    <div class="footer">
-      <p>
-        © ${new Date().getFullYear()} Blog App. All rights reserved.
-      </p>
-    </div>
-  </div>
-</body>
-</html>
+  </body>
+  </html>
 `,
         });
       } catch (error) {
