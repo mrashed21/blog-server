@@ -16,7 +16,7 @@
     "esModuleInterop": true,
     "strict": true,
 
-    "verbatimModuleSyntax": true,
+    // "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "moduleDetection": "force",
 
