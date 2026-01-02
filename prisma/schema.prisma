@@ -17,7 +17,7 @@ model Post {
   id         String     @id @default(uuid())
   title      String     @db.VarChar(255)
   content    String
-  thumbnail  String
+  thumbnail  String?
   isFeatured Boolean    @default(false)
   status     PostStatus @default(published)
   tags       String[]
