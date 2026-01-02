@@ -15,6 +15,13 @@ const authMiddleWare = (...role: any) => {
         message: "You are not Authorized",
       });
     }
+
+    if (!session.user.emailVerified) {
+      return res.status(403).json({
+        success: false,
+        message: "Email is not verified",
+      });
+    }
     console.log(session);
     next();
   };
