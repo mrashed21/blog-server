@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { Post } from "@generated/prisma/client";
+import { PostWhereInput } from "@generated/prisma/models";
 
 const createPost = async (
   data: Omit<Post, "id" | "createdAt" | "updatedAt" | "authorId">,
@@ -14,34 +15,52 @@ const createPost = async (
   return result;
 };
 
-const gellAllPost = async (payload: {
+const gellAllPost = async ({
+  search,
+  tags,
+}: {
   search: string | undefined;
   tags: string[] | [];
 }) => {
-  // const gellAllPost = async (payload: { search: string }) => {
-  const result = await prisma.post.findMany({
-    where: {
+  const andConditions: PostWhereInput[] = [];
+  if (search) {
+    andConditions.push({
       OR: [
         {
           title: {
-            contains: payload.search!,
+            contains: search!,
             mode: "insensitive",
           },
         },
 
         {
           content: {
-            contains: payload.search!,
+            contains: search!,
             mode: "insensitive",
           },
         },
         {
           tags: {
-            has: payload.search!,
+            has: search!,
           },
         },
       ],
+    });
+  }
+
+  if (tags.length > 0) {
+    andConditions.push({
+      tags: {
+        hasEvery: tags as string[],
+      },
+    });
+  }
+  // const gellAllPost = async (payload: { search: string }) => {
+  const result = await prisma.post.findMany({
+    where: {
+      AND: andConditions,
     },
+
     orderBy: {
       createdAt: "desc",
     },
