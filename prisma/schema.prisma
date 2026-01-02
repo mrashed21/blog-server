@@ -22,12 +22,12 @@ model Post {
   status     PostStatus @default(published)
   tags       String[]
   views      Int[]
-  authoeId   String
+  authorId   String
   comments   Comment[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
 
-  @@index([authoeId])
+  @@index([authorId])
 }
 
 model Comment {

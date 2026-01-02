@@ -14,7 +14,7 @@ CREATE TABLE "Post" (
     "status" "PostStatus" NOT NULL DEFAULT 'published',
     "tags" TEXT[],
     "views" INTEGER[],
-    "authoeId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -36,7 +36,7 @@ CREATE TABLE "comments" (
 );
 
 -- CreateIndex
-CREATE INDEX "Post_authoeId_idx" ON "Post"("authoeId");
+CREATE INDEX "Post_authorId_idx" ON "Post"("authorId");
 
 -- CreateIndex
 CREATE INDEX "comments_authorId_idx" ON "comments"("authorId");
