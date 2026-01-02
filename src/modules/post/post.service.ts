@@ -14,7 +14,10 @@ const createPost = async (
   return result;
 };
 
-const gellAllPost = async (payload: { search: string | undefined }) => {
+const gellAllPost = async (payload: {
+  search: string | undefined;
+  tags: string[] | [];
+}) => {
   // const gellAllPost = async (payload: { search: string }) => {
   const result = await prisma.post.findMany({
     where: {
@@ -33,10 +36,10 @@ const gellAllPost = async (payload: { search: string | undefined }) => {
           },
         },
         {
-          tags:{
-            has: payload.search!
-          }
-        }
+          tags: {
+            has: payload.search!,
+          },
+        },
       ],
     },
     orderBy: {

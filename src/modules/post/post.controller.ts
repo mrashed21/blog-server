@@ -29,11 +29,12 @@ const createPost = async (req: Request, res: Response) => {
 const gellAllPost = async (req: Request, res: Response) => {
   try {
     const { search } = req.query;
-    const searchTerm = typeof search === 'string' ? search : undefined;
+    const searchTerm = typeof search === "string" ? search : undefined;
+    const tags = req.query.tags ? (req.query.tags as string).split(",") : [];
     // const searchTerm = search ? search : "";
 
     // const result = await postService.gellAllPost( {searchTerm: string});
-    const result = await postService.gellAllPost( {search: searchTerm});
+    const result = await postService.gellAllPost({ search: searchTerm, tags });
 
     res.status(200).json({
       success: true,
