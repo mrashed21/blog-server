@@ -18,11 +18,14 @@ const createPost = async (
 const gellAllPost = async ({
   search,
   tags,
+  isFeatured,
 }: {
   search: string | undefined;
   tags: string[] | [];
+  isFeatured: boolean;
 }) => {
   const andConditions: PostWhereInput[] = [];
+  // search string
   if (search) {
     andConditions.push({
       OR: [
@@ -47,12 +50,19 @@ const gellAllPost = async ({
       ],
     });
   }
-
+  // tags array []
   if (tags.length > 0) {
     andConditions.push({
       tags: {
         hasEvery: tags as string[],
       },
+    });
+  }
+
+  // isFeatured
+  if (typeof isFeatured == "boolean") {
+    andConditions.push({
+      isFeatured,
     });
   }
   // const gellAllPost = async (payload: { search: string }) => {
