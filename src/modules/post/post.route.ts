@@ -4,8 +4,8 @@ import { postController } from "./post.controller";
 const router = express.Router();
 
 export enum UserRole {
-  user = "user",
   admin = "admin",
+  user = "user",
 }
 declare global {
   namespace Express {
@@ -22,7 +22,7 @@ declare global {
 }
 
 //* aurh middleware
-const authMiddleWare = (...role: any) => {
+const authMiddleWare = (...role: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const session = await auth.api.getSession({
       headers: req.headers as any,
@@ -49,11 +49,22 @@ const authMiddleWare = (...role: any) => {
       role: session.user.role!,
       emailVerified: session.user.emailVerified,
     };
-    console.log(session);
+
+    if (role.length && !role.includes(req.user.role as UserRole)) {
+      return res.status(403).json({
+        success: false,
+        message: "Forbiden! You dont have access",
+      });
+    }
+
     next();
   };
 };
 
-router.get("/", authMiddleWare("admin", "user"), postController.gellAllPost);
+router.get(
+  "/",
+  authMiddleWare(UserRole.admin, UserRole.user),
+  postController.gellAllPost
+);
 router.post("/", postController.createPost);
 export const postRouter = router;
