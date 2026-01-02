@@ -9,6 +9,12 @@ const authMiddleWare = (...role: any) => {
       headers: req.headers as any,
     });
 
+    if (!session) {
+      return res.status(401).json({
+        success: false,
+        message: "You are not Authorized",
+      });
+    }
     console.log(session);
     next();
   };
