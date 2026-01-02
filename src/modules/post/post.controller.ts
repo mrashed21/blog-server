@@ -33,7 +33,7 @@ const gellAllPost = async (req: Request, res: Response) => {
     const tags = req.query.tags ? (req.query.tags as string).split(",") : [];
     const isFeatured = req.query.isFeatured
       ? req.query.isFeatured === "true"
-      : false;
+      : undefined;
     // const searchTerm = search ? search : "";
 
     // const result = await postService.gellAllPost( {searchTerm: string});
