@@ -32,6 +32,11 @@ const gellAllPost = async (payload: { search: string | undefined }) => {
             mode: "insensitive",
           },
         },
+        {
+          tags:{
+            has: payload.search!
+          }
+        }
       ],
     },
     orderBy: {
