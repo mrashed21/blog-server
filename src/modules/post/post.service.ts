@@ -35,8 +35,8 @@ const gellAllPost = async ({
   page: number;
   limit: number;
   skip: number;
-  sortBy: string | undefined;
-  sortOrder: string | undefined;
+  sortBy: string;
+  sortOrder: string;
 }) => {
   const andConditions: PostWhereInput[] = [];
   // search string
@@ -98,14 +98,9 @@ const gellAllPost = async ({
       AND: andConditions,
     },
 
-    orderBy:
-      sortBy && sortOrder
-        ? {
-            [sortBy]: sortOrder,
-          }
-        : {
-            createdAt: "desc",
-          },
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
   });
 
   return result;

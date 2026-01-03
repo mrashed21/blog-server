@@ -48,15 +48,10 @@ const gellAllPost = async (req: Request, res: Response) => {
     const status = req.query.status as PostStatus | undefined;
     const authorId = req.query.authorId as string | undefined;
 
-    const options = paginationSortFun(req.query);
-    // page & limit
-    const page = Number(req.query.page ?? 1);
-    const limit = Number(req.query.limit ?? 1);
-    const skip = (page - 1) * limit;
+    const { page, limit, skip, sortBy, sortOrder } = paginationSortFun(
+      req.query
+    );
 
-    // short by
-    const sortBy = req.query.sortBy as string | undefined;
-    const sortOrder = req.query.sortOrder as string | undefined;
     const result = await postService.gellAllPost({
       search: searchTerm,
       tags,
