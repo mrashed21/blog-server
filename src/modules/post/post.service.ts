@@ -24,6 +24,8 @@ const gellAllPost = async ({
   page,
   limit,
   skip,
+  sortBy,
+  sortOrder,
 }: {
   search: string | undefined;
   tags: string[] | [];
@@ -33,6 +35,8 @@ const gellAllPost = async ({
   page: number;
   limit: number;
   skip: number;
+  sortBy: string | undefined;
+  sortOrder: string | undefined;
 }) => {
   const andConditions: PostWhereInput[] = [];
   // search string
@@ -94,9 +98,14 @@ const gellAllPost = async ({
       AND: andConditions,
     },
 
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy:
+      sortBy && sortOrder
+        ? {
+            [sortBy]: sortOrder,
+          }
+        : {
+            createdAt: "desc",
+          },
   });
 
   return result;
