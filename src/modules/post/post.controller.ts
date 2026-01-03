@@ -46,13 +46,19 @@ const gellAllPost = async (req: Request, res: Response) => {
 
     const status = req.query.status as PostStatus | undefined;
     const authorId = req.query.authorId as string | undefined;
-
+    // page & limit
+    const page = Number(req.query.page ?? 1);
+    const limit = Number(req.query.limit ?? 1);
+    const skip = (page - 1) * limit;
     const result = await postService.gellAllPost({
       search: searchTerm,
       tags,
       isFeatured,
       status,
-      authorId
+      authorId,
+      page,
+      limit,
+      skip,
     });
 
     res.status(200).json({
