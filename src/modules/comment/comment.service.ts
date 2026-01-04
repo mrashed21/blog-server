@@ -6,6 +6,19 @@ const createComment = async (payload: {
   postId: string;
   parentId: string;
 }) => {
+  // check post exsit or not and throw error
+  await prisma.post.findUniqueOrThrow({
+    where: {
+      id: payload.postId,
+    },
+  });
+
+  //   check comment for replay exsit or not and throw error
+  await prisma.comment.findUniqueOrThrow({
+    where: {
+      id: payload.parentId,
+    },
+  });
   const result = await prisma.comment.create({
     data: payload,
   });
