@@ -1,5 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import type { Post, PostStatus } from "@generated/prisma/client";
+import {
+  CommnetStatus,
+  type Post,
+  type PostStatus,
+} from "@generated/prisma/client";
 import { PostWhereInput } from "@generated/prisma/models";
 
 // cretate post
@@ -139,6 +143,26 @@ const getPostById = async (postId: string) => {
     const result = await tx.post.findUnique({
       where: {
         id: postId,
+      },
+      include: {
+        comments: {
+          where: {
+            parentId: null,
+            status: CommnetStatus.approved,
+          },
+          include: {
+            replays: {
+              where: { status: CommnetStatus.approved },
+              include: {
+                replays: {
+                  where: {
+                    status: CommnetStatus.approved,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
