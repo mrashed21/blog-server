@@ -103,7 +103,22 @@ const gellAllPost = async ({
     },
   });
 
-  return result;
+  // totaData
+  const totaData = await prisma.post.count({
+    where: {
+      AND: andConditions,
+    },
+  });
+
+  return {
+    data: result,
+    pagination: {
+      totaData,
+      page,
+      limit,
+      totalPage: Math.ceil(totaData / limit),
+    },
+  };
 };
 
 export const postService = {
