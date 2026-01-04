@@ -21,7 +21,7 @@ model Post {
   isFeatured Boolean    @default(false)
   status     PostStatus @default(published)
   tags       String[]
-  views      Int[]
+  views      Int        @default(0)
   authorId   String
   comments   Comment[]
   createdAt  DateTime   @default(now())
