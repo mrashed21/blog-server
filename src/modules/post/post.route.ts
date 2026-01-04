@@ -3,10 +3,12 @@ import express from "express";
 import { postController } from "./post.controller";
 const router = express.Router();
 
-router.get(
-  "/",
-  // authMiddleWare(UserRole.admin, UserRole.user),
-  postController.gellAllPost
-);
+// get all post
+router.get("/", postController.gellAllPost);
+
+// get post by id
+router.get("/:postId", postController.getPostById);
+
+// create post
 router.post("/", authMiddleWare(UserRole.user), postController.createPost);
 export const postRouter = router;

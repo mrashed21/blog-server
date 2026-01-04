@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import type { Post, PostStatus } from "@generated/prisma/client";
 import { PostWhereInput } from "@generated/prisma/models";
 
+// cretate post
 const createPost = async (
   data: Omit<Post, "id" | "createdAt" | "updatedAt" | "authorId">,
   UserId: string
@@ -15,6 +16,7 @@ const createPost = async (
   return result;
 };
 
+// get all post
 const gellAllPost = async ({
   search,
   tags,
@@ -121,7 +123,17 @@ const gellAllPost = async ({
   };
 };
 
+// get post by id
+const getPostById = async (postId: string) => {
+  const result = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+  });
+  return result;
+};
 export const postService = {
   createPost,
   gellAllPost,
+  getPostById,
 };

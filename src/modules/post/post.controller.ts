@@ -3,6 +3,7 @@ import { PostStatus } from "@generated/prisma/enums";
 import type { Request, Response } from "express";
 import { postService } from "./post.service";
 
+// cretate post
 const createPost = async (req: Request, res: Response) => {
   const user = req.user;
 
@@ -28,15 +29,12 @@ const createPost = async (req: Request, res: Response) => {
   }
 };
 
+// get all post
 const gellAllPost = async (req: Request, res: Response) => {
   try {
     const { search } = req.query;
     const searchTerm = typeof search === "string" ? search : undefined;
     const tags = req.query.tags ? (req.query.tags as string).split(",") : [];
-
-    // const isFeatured = req.query.isFeatured
-    //   ? req.query.isFeatured === "true"
-    //   : undefined;
 
     const isFeatured =
       req.query.isFeatured === "true"
@@ -77,7 +75,29 @@ const gellAllPost = async (req: Request, res: Response) => {
     });
   }
 };
+
+// get post by id
+const getPostById = async (req: Request, res: Response) => {
+  try {
+    const { postId } = req.params;
+    if (!postId) {
+      throw new Error("Post Id is required");
+    }
+    const result = await postService.getPostById(postId);
+    res.status(200).json({
+      success: true,
+      message: "Post get successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to get post",
+    });
+  }
+};
 export const postController = {
   createPost,
   gellAllPost,
+  getPostById,
 };
