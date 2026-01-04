@@ -107,6 +107,11 @@ const gellAllPost = async ({
     orderBy: {
       [sortBy]: sortOrder,
     },
+    include: {
+      _count: {
+        select: { comments: true },
+      },
+    },
   });
 
   // totaData
@@ -150,18 +155,24 @@ const getPostById = async (postId: string) => {
             parentId: null,
             status: CommnetStatus.approved,
           },
+          orderBy: { createdAt: "desc" },
           include: {
             replays: {
               where: { status: CommnetStatus.approved },
+              orderBy: { createdAt: "asc" },
               include: {
                 replays: {
                   where: {
                     status: CommnetStatus.approved,
                   },
+                  orderBy: { createdAt: "asc" },
                 },
               },
             },
           },
+        },
+        _count: {
+          select: { comments: true },
         },
       },
     });
