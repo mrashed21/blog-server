@@ -14,5 +14,11 @@ router.post(
   authMiddleWare(UserRole.user, UserRole.admin),
   commentController.createComment
 );
+// delete comment
+router.delete(
+  "/:id",
+  authMiddleWare(UserRole.user, UserRole.admin),
+  commentController.deleteComment
+);
 
 export const commentRouter = router;
