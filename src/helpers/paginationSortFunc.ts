@@ -30,9 +30,3 @@ const paginationSortFun = (options: IOpitons): IOpitonsResult => {
 
 export default paginationSortFun;
 
-/*
-//! command
-  npx prisma migrate dev
-  npx prisma generate
-
-*/
