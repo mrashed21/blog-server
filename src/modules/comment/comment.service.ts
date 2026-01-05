@@ -33,7 +33,13 @@ const getCommentById = async (id: string) => {
       id,
     },
     include: {
-      post: true,
+      post: {
+        select: {
+          id: true,
+          title: true,
+          views: true,
+        },
+      },
     },
   });
   return result;
