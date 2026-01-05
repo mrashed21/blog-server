@@ -35,9 +35,9 @@ model Comment {
   content   String        @db.Text
   authorId  String
   postId    String
-  post      Post          @relation(fields: [postId], references: [id])
+  post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
   parentId  String?
-  parent    Comment?      @relation("CommentReplays", fields: [parentId], references: [id])
+  parent    Comment?      @relation("CommentReplays", fields: [parentId], references: [id], onDelete: Cascade)
   replays   Comment[]     @relation("CommentReplays")
   status    CommnetStatus @default(approved)
   createdAt DateTime      @default(now())
