@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { CommnetStatus } from "@generated/prisma/enums";
 
 // create comment
 const createComment = async (payload: {
@@ -15,11 +16,13 @@ const createComment = async (payload: {
   });
 
   //   check comment for replay exsit or not and throw error
-  await prisma.comment.findUniqueOrThrow({
-    where: {
-      id: payload.parentId,
-    },
-  });
+  if (payload.parentId) {
+    await prisma.comment.findUniqueOrThrow({
+      where: {
+        id: payload.parentId,
+      },
+    });
+  }
   const result = await prisma.comment.create({
     data: payload,
   });
@@ -85,9 +88,41 @@ const deleteComment = async (id: string, authorId: string) => {
   });
   return result;
 };
+
+// update comment
+const updateComment = async (
+  id: string,
+  authorId: string,
+  payload: {
+    content?: string;
+    status?: CommnetStatus;
+  }
+) => {
+  const commentData = await prisma.comment.findFirst({
+    where: {
+      id,
+      authorId,
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (!commentData) {
+    throw new Error("Something went wrong");
+  }
+
+  const result = await prisma.comment.update({
+    where: {
+      id: commentData.id,
+    },
+    data: payload,
+  });
+  return result;
+};
 export const commentService = {
   createComment,
   getCommentById,
   getCommentByAuthorId,
   deleteComment,
+  updateComment,
 };

@@ -14,6 +14,7 @@ const createComment = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: "Something went wrong! try again.",
@@ -78,9 +79,30 @@ const deleteComment = async (req: Request, res: Response) => {
     });
   }
 };
+
+// update comment
+const updateComment = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const user = req.user;
+    const result = await commentService.updateComment(id!, user?.id!, req.body);
+    res.status(200).json({
+      success: true,
+      message: "Comment update successfully",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong!",
+      error: error,
+    });
+  }
+};
 export const commentController = {
   createComment,
   getCommentById,
   getCommentByAuthorId,
   deleteComment,
+  updateComment,
 };
