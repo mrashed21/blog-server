@@ -138,6 +138,11 @@ const modifyCommentByAdmin = async (
     where: {
       id: modifyComent.id,
     },
+
+    select: {
+      id: true,
+      status: true,
+    },
     data,
   });
   return result;
