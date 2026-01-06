@@ -118,4 +118,5 @@ export const postController = {
   createPost,
   gellAllPost,
   getPostById,
+  getMyPosts,
 };
