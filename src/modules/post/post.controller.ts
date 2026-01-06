@@ -96,6 +96,24 @@ const getPostById = async (req: Request, res: Response) => {
     });
   }
 };
+
+// get myposts
+const getMyPosts = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const result = await postService.getMyPosts(user?.id!);
+    res.status(200).json({
+      success: true,
+      message: "posts get successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong! try again",
+    });
+  }
+};
 export const postController = {
   createPost,
   gellAllPost,
