@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { commentService } from "./comment.service";
-import { success } from "better-auth/*";
 
 // create comment
 const createComment = async (req: Request, res: Response) => {
@@ -102,30 +101,30 @@ const updateComment = async (req: Request, res: Response) => {
 };
 
 // modify comment by admin
-const modifyCommentByAdmin= async (req:Request,res:Response)=>{
+const modifyCommentByAdmin = async (req: Request, res: Response) => {
   try {
-    const {id} = req.params
+    const { id } = req.params;
 
-    const result = await commentService.modifyCommentByAdmin(id!, req.body)
+    const result = await commentService.modifyCommentByAdmin(id!, req.body);
     res.status(200).json({
-      success:true,
-      message:'Comment Updated Successful!',
-      data: result
-    })
-    
-  } catch (error) {
+      success: true,
+      message: "Comment Updated Successful!",
+      data: result,
+    });
+  } catch (error: any) {
+    const errorMessage = error.message || "Something went wrong!";
     res.status(500).json({
       success: false,
-      message: "Something went wrong!",
+      message: errorMessage,
       error: error,
     });
   }
-}
+};
 export const commentController = {
   createComment,
   getCommentById,
   getCommentByAuthorId,
   deleteComment,
   updateComment,
-  modifyCommentByAdmin
+  modifyCommentByAdmin,
 };

@@ -131,6 +131,9 @@ const modifyCommentByAdmin = async (
     },
   });
 
+  if (modifyComent.status === data.status) {
+    throw new Error(`Your Comment Status (${data.status}) already up to date`);
+  }
   const result = prisma.comment.update({
     where: {
       id: modifyComent.id,
