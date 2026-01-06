@@ -119,10 +119,31 @@ const updateComment = async (
   });
   return result;
 };
+
+// modify comment by admin
+const modifyCommentByAdmin = async (
+  id: string,
+  data: { status: CommnetStatus }
+) => {
+  const modifyComent = await prisma.comment.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  const result = prisma.comment.update({
+    where: {
+      id: modifyComent.id,
+    },
+    data,
+  });
+  return result;
+};
 export const commentService = {
   createComment,
   getCommentById,
   getCommentByAuthorId,
   deleteComment,
   updateComment,
+  modifyCommentByAdmin,
 };

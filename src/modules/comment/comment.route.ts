@@ -28,4 +28,11 @@ router.patch(
   commentController.updateComment
 );
 
+router.patch(
+  "/modify/:id",
+  authMiddleWare(UserRole.admin),
+  commentController.modifyCommentByAdmin
+);
+// modify comment by admin,
+
 export const commentRouter = router;
