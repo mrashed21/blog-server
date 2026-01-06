@@ -189,6 +189,7 @@ const getMyPosts = async (authorId: string) => {
     },
     orderBy: { createdAt: "desc" },
   });
+  return result;
 };
 export const postService = {
   createPost,

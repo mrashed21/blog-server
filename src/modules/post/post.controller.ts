@@ -101,6 +101,7 @@ const getPostById = async (req: Request, res: Response) => {
 const getMyPosts = async (req: Request, res: Response) => {
   try {
     const user = req.user;
+    console.log(user);
     const result = await postService.getMyPosts(user?.id!);
     res.status(200).json({
       success: true,
