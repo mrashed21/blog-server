@@ -188,8 +188,20 @@ const getMyPosts = async (authorId: string) => {
       authorId,
     },
     orderBy: { createdAt: "desc" },
+    include: {
+      _count: {
+        select: {
+          comments: true,
+        },
+      },
+    },
   });
-  return result;
+  const totaData = await prisma.post.count({
+    where: {
+      authorId,
+    },
+  });
+  return { result, totaData };
 };
 export const postService = {
   createPost,
