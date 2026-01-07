@@ -183,6 +183,16 @@ const getPostById = async (postId: string) => {
 
 // get my posts
 const getMyPosts = async (authorId: string) => {
+  // check user status
+  await prisma.user.findUniqueOrThrow({
+    where: {
+      id: authorId,
+      status: "active",
+    },
+    select: {
+      id: true,
+    },
+  });
   const result = await prisma.post.findMany({
     where: {
       authorId,
