@@ -18,4 +18,11 @@ router.get("/:postId", postController.getPostById);
 
 // create post
 router.post("/", authMiddleWare(UserRole.user), postController.createPost);
+
+// update mypost
+router.patch(
+  "/:id",
+  authMiddleWare(UserRole.user, UserRole.admin),
+  postController.updateMyPost
+);
 export const postRouter = router;

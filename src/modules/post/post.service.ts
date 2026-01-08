@@ -213,9 +213,38 @@ const getMyPosts = async (authorId: string) => {
   });
   return { result, totaData };
 };
+
+// update mypost
+const updateMyPost = async (
+  authorId: string,
+  postId: string,
+  data: Partial<Post>
+) => {
+  const postData = await prisma.post.findUniqueOrThrow({
+    where: {
+      id: postId,
+    },
+    select: {
+      id: true,
+      authorId: true,
+    },
+  });
+  if (postData.authorId !== authorId) {
+    throw new Error("Something went wrong");
+  }
+
+  const result = await prisma.post.update({
+    where: {
+      id: postData.id,
+    },
+    data,
+  });
+  return result;
+};
 export const postService = {
   createPost,
   gellAllPost,
   getPostById,
   getMyPosts,
+  updateMyPost,
 };
