@@ -21,7 +21,7 @@ router.post("/", authMiddleWare(UserRole.user), postController.createPost);
 
 // update mypost
 router.patch(
-  "/:id",
+  "/:postId",
   authMiddleWare(UserRole.user, UserRole.admin),
   postController.updateMyPost
 );

@@ -125,6 +125,11 @@ const updateMyPost = async (req: Request, res: Response) => {
     }
     const { postId } = req.params;
     const result = await postService.updateMyPost(user.id!, postId!, req.body!);
+    res.status(201).json({
+      success: true,
+      message: "Post update successfull",
+      data: result,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,

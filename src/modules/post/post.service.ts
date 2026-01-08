@@ -220,6 +220,7 @@ const updateMyPost = async (
   postId: string,
   data: Partial<Post>
 ) => {
+  console.log("postId", postId);
   const postData = await prisma.post.findUniqueOrThrow({
     where: {
       id: postId,
