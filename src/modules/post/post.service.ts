@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { UserRole } from "@/middleware/authMiddleWare";
 import { CommnetStatus, PostStatus, type Post } from "@generated/prisma/client";
 import { PostWhereInput } from "@generated/prisma/models";
 
@@ -306,6 +307,10 @@ const stats = async () => {
       darftPost,
       totalComments,
       approvedComment,
+      totalUser,
+      totalAdmin,
+      allUser,
+      totalViews,
     ] = await Promise.all([
       // totalpost
       await tx.post.count(),
@@ -337,6 +342,26 @@ const stats = async () => {
           status: CommnetStatus.approved,
         },
       }),
+      // total user
+      await tx.user.count({
+        where: {
+          role: UserRole.user,
+        },
+      }),
+      // total admin
+      await tx.user.count({
+        where: {
+          role: UserRole.admin,
+        },
+      }),
+      // all user
+      await tx.user.count(),
+      // totalviews
+      await tx.post.aggregate({
+        _sum: {
+          views: true,
+        },
+      }),
     ]);
 
     return {
@@ -346,6 +371,10 @@ const stats = async () => {
       darftPost,
       totalComments,
       approvedComment,
+      totalUser,
+      totalAdmin,
+      allUser,
+      totalViews: totalViews._sum.views,
     };
   });
 };
