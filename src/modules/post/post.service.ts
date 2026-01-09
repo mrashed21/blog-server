@@ -1,9 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import {
-  CommnetStatus,
-  type Post,
-  type PostStatus,
-} from "@generated/prisma/client";
+import { CommnetStatus, PostStatus, type Post } from "@generated/prisma/client";
 import { PostWhereInput } from "@generated/prisma/models";
 
 // cretate post
@@ -271,6 +267,35 @@ const deletePost = async (
   });
   return result;
 };
+
+// stats
+const stats = async () => {
+  return await prisma.$transaction(async (tx) => {
+    const totalPost = await tx.post.count();
+    const publishedPost = await tx.post.count({
+      where: {
+        status: PostStatus.published,
+      },
+    });
+    const archivedPost = await tx.post.count({
+      where: {
+        status: PostStatus.archive,
+      },
+    });
+    const darftPost = await tx.post.count({
+      where: {
+        status: PostStatus.darft,
+      },
+    });
+
+    return{
+      totalPost,
+      publishedPost,
+      archivedPost,
+      darftPost
+    }
+  });
+};
 export const postService = {
   createPost,
   gellAllPost,
@@ -278,4 +303,5 @@ export const postService = {
   getMyPosts,
   updateMyPost,
   deletePost,
+  stats,
 };

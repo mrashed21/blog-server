@@ -16,6 +16,9 @@ router.get("/", postController.gellAllPost);
 // get post by id
 router.get("/:postId", postController.getPostById);
 
+// stats
+router.get("/", authMiddleWare(UserRole.admin), postController.stats);
+
 // create post
 router.post("/", authMiddleWare(UserRole.user), postController.createPost);
 
@@ -31,4 +34,5 @@ router.delete(
   authMiddleWare(UserRole.admin, UserRole.user),
   postController.deletePost
 );
+
 export const postRouter = router;

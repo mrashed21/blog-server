@@ -155,10 +155,27 @@ const deletePost = async (req: Request, res: Response) => {
       throw new Error("You are unauthorized");
     }
     const { postId } = req.params;
-    const result = await postService.deletePost(postId!,user.id!, isAdmin);
+    const result = await postService.deletePost(postId!, user.id!, isAdmin);
     res.status(201).json({
       success: true,
       message: "Post delete successfull",
+      data: result,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong! try again",
+    });
+  }
+};
+
+// stats
+const stats = async (req: Request, res: Response) => {
+  try {
+    const result = await postService.stats();
+    res.status(200).json({
+      success: true,
+      message: "Stats get successfull",
       data: result,
     });
   } catch (error) {
@@ -174,5 +191,6 @@ export const postController = {
   getPostById,
   getMyPosts,
   updateMyPost,
-  deletePost
+  deletePost,
+  stats
 };
