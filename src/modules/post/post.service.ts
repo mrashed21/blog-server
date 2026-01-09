@@ -270,32 +270,86 @@ const deletePost = async (
 
 // stats
 const stats = async () => {
-  return await prisma.$transaction(async (tx) => {
-    const totalPost = await tx.post.count();
-    const publishedPost = await tx.post.count({
-      where: {
-        status: PostStatus.published,
-      },
-    });
-    const archivedPost = await tx.post.count({
-      where: {
-        status: PostStatus.archive,
-      },
-    });
-    const darftPost = await tx.post.count({
-      where: {
-        status: PostStatus.darft,
-      },
-    });
+  // //! v1
+  // return await prisma.$transaction(async (tx) => {
+  //   const totalPost = await tx.post.count();
+  //   const publishedPost = await tx.post.count({
+  //     where: {
+  //       status: PostStatus.published,
+  //     },
+  //   });
+  //   const archivedPost = await tx.post.count({
+  //     where: {
+  //       status: PostStatus.archive,
+  //     },
+  //   });
+  //   const darftPost = await tx.post.count({
+  //     where: {
+  //       status: PostStatus.darft,
+  //     },
+  //   });
 
-    return{
+  //   return{
+  //     totalPost,
+  //     publishedPost,
+  //     archivedPost,
+  //     darftPost
+  //   }
+  // });
+
+  // v2
+  return await prisma.$transaction(async (tx) => {
+    const [
       totalPost,
       publishedPost,
       archivedPost,
-      darftPost
-    }
+      darftPost,
+      totalComments,
+      approvedComment,
+    ] = await Promise.all([
+      // totalpost
+      await tx.post.count(),
+      // published post
+      await tx.post.count({
+        where: {
+          status: PostStatus.published,
+        },
+      }),
+
+      // archived post
+      await tx.post.count({
+        where: {
+          status: PostStatus.archive,
+        },
+      }),
+      // draft post
+      await tx.post.count({
+        where: {
+          status: PostStatus.darft,
+        },
+      }),
+
+      // total comment
+      await tx.comment.count(),
+      // approved Comment
+      await tx.comment.count({
+        where: {
+          status: CommnetStatus.approved,
+        },
+      }),
+    ]);
+
+    return {
+      totalPost,
+      publishedPost,
+      archivedPost,
+      darftPost,
+      totalComments,
+      approvedComment,
+    };
   });
 };
+
 export const postService = {
   createPost,
   gellAllPost,

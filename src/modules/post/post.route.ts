@@ -3,6 +3,13 @@ import express from "express";
 import { postController } from "./post.controller";
 const router = express.Router();
 
+// stats
+router.get(
+  "/getstats",
+  authMiddleWare(UserRole.admin, UserRole.user),
+  postController.stats
+);
+
 // get myposts
 router.get(
   "/myposts",
@@ -15,9 +22,6 @@ router.get("/", postController.gellAllPost);
 
 // get post by id
 router.get("/:postId", postController.getPostById);
-
-// stats
-router.get("/", authMiddleWare(UserRole.admin), postController.stats);
 
 // create post
 router.post("/", authMiddleWare(UserRole.user), postController.createPost);
