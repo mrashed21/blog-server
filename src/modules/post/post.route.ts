@@ -25,4 +25,10 @@ router.patch(
   authMiddleWare(UserRole.user, UserRole.admin),
   postController.updateMyPost
 );
+// delete post
+router.delete(
+  "/:postId",
+  authMiddleWare(UserRole.admin, UserRole.user),
+  postController.deletePost
+);
 export const postRouter = router;
