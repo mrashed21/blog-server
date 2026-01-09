@@ -1,4 +1,5 @@
 import paginationSortFun from "@/helpers/paginationSortFunc";
+import { UserRole } from "@/middleware/authMiddleWare";
 import { PostStatus } from "@generated/prisma/enums";
 import type { Request, Response } from "express";
 import { postService } from "./post.service";
@@ -101,7 +102,6 @@ const getPostById = async (req: Request, res: Response) => {
 const getMyPosts = async (req: Request, res: Response) => {
   try {
     const user = req.user;
-
     const result = await postService.getMyPosts(user?.id!);
     res.status(200).json({
       success: true,
@@ -120,11 +120,13 @@ const getMyPosts = async (req: Request, res: Response) => {
 const updateMyPost = async (req: Request, res: Response) => {
   try {
     const user = req.user;
+    
+    const isAdmin = user?.role === UserRole.admin;
     if (!user) {
       throw new Error("You are unauthorized");
     }
     const { postId } = req.params;
-    const result = await postService.updateMyPost(user.id!, postId!, req.body!);
+    const result = await postService.updateMyPost(user.id!, postId!, req.body!, isAdmin);
     res.status(201).json({
       success: true,
       message: "Post update successfull",
