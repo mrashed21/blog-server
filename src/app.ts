@@ -2,6 +2,7 @@ import { toNodeHandler } from "better-auth/node";
 import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
+import errorHandler from "./middleware/errorHandler";
 import router from "./router/router";
 const app = express();
 
@@ -19,4 +20,7 @@ app.all("/api/auth/*splat", toNodeHandler(auth));
 app.get("/", (req, res) => {
   res.send("blog server is running");
 });
+
+// global error
+app.use(errorHandler);
 export default app;

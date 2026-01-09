@@ -1,11 +1,12 @@
 import paginationSortFun from "@/helpers/paginationSortFunc";
 import { UserRole } from "@/middleware/authMiddleWare";
+import errorHandler from "@/middleware/errorHandler";
 import { PostStatus } from "@generated/prisma/enums";
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { postService } from "./post.service";
 
 // cretate post
-const createPost = async (req: Request, res: Response) => {
+const createPost = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.user;
 
   if (!user) {
@@ -23,10 +24,11 @@ const createPost = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to create post",
-    });
+    // res.status(500).json({
+    //   success: false,
+    //   message: "Failed to create post",
+    // });
+    next(errorHandler);
   }
 };
 
@@ -192,5 +194,5 @@ export const postController = {
   getMyPosts,
   updateMyPost,
   deletePost,
-  stats
+  stats,
 };
