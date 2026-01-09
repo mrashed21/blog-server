@@ -1,6 +1,5 @@
 import paginationSortFun from "@/helpers/paginationSortFunc";
 import { UserRole } from "@/middleware/authMiddleWare";
-import errorHandler from "@/middleware/errorHandler";
 import { PostStatus } from "@generated/prisma/enums";
 import type { NextFunction, Request, Response } from "express";
 import { postService } from "./post.service";
@@ -28,7 +27,7 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
     //   success: false,
     //   message: "Failed to create post",
     // });
-    next(errorHandler);
+    next(error);
   }
 };
 
