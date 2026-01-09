@@ -3,6 +3,7 @@ import cors from "cors";
 import express from "express";
 import { auth } from "./lib/auth";
 import errorHandler from "./middleware/errorHandler";
+import notFound from "./middleware/notFound";
 import router from "./router/router";
 const app = express();
 
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
   res.send("blog server is running");
 });
 
+// not found
+app.use(notFound);
 // global error
 app.use(errorHandler);
 export default app;
